@@ -1,0 +1,22 @@
+{
+  "name": "database-config",
+  "version": "1.0.0",
+  "description": "Quick and easy connection to the database",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Greatigalink/database-config.git"
+  },
+  "keywords": [
+    "node-database"
+  ],
+  "author": "greatiga",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Greatigalink/database-config/issues"
+  },
+  "homepage": "https://github.com/Greatigalink/database-config#readme"
+}
