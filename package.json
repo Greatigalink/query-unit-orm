@@ -1,6 +1,6 @@
 {
   "name": "database-config",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Quick and easy connection to the database",
   "main": "index.js",
   "scripts": {
