@@ -1,5 +1,3 @@
-const mysql = require('mysql');
-
 class MySql {
   constructor(config = null) {
     this.config = config;
@@ -11,6 +9,7 @@ class MySql {
   }
 
   set_MySqlObject() {
+    const mysql = require('mysql');
     let config = this.config.DATABASE;
     this.$dataBase_obj = mysql.createConnection({
       host: config.host,

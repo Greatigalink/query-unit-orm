@@ -1,5 +1,3 @@
-const mongoose = require('mongoose');
-
 class Mongodb {
   constructor(connectUrl = null) {
     this.connectUrl = connectUrl;
@@ -21,6 +19,7 @@ class Mongodb {
   }
 
   connect() {
+    const mongoose = require('mongoose');
     console.log('begin try connect to mongodb...');
     console.time('connect');
     mongoose.connect(this.connectUrl, this.auth || {});

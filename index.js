@@ -3,7 +3,6 @@ const createConfig = require('./util/analysisFile');
 const check = require('./util/checkConfig');
 const Mongodb = require('./connect/mongodb');
 const MySql = require('./connect/mysql');
-const collection = require('./gatherMap/mongodb');
 
 class Great_DataBase {
   constructor(path = __dirname) {
@@ -60,6 +59,7 @@ class Great_DataBase {
     await check(this.dataBaseConfig);
     switch(this.dataBaseConfig.DATABASE.name) {
       case 'mongodb': {
+        const collection = require('./gatherMap/mongodb');
         await this.connectToMongodb().then(res => this.dataBase = res);
         let collections = collection(this.dataBase,this.dataBaseConfig);
         collections.forEach(item => this[item.collectionName] = item.value);
