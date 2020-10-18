@@ -1,16 +1,25 @@
 # database-config
 
-## Download
+# 目录
+
+* [步骤](#使用)
+  * [创建文件](#create)
+  * [index.js](#index.js)
+  * [config.yml](#config.yml)
+  * [开始使用](#开始使用)
+* [完整配置示例](#完整配置示例)
+  * [mongodb](#mongodb)
+  * [mysql](#mysql)
+
+## 下载安装
 
 > npm i database-config
 
-
-
 > cnpm i database-config
 
-## Use
+## 使用
 
-### create new directory
+### create
 
 > 创建一个目录用来存放两个配置文件，以 mongodb 为例
 
@@ -50,7 +59,7 @@ DATABASE:
   # 指定数据库，目前支持 mongodb、mysql
   url: mongodb://localhost:27017/my_database
   # 连接地址 
-  # mysql 可以设置 host: 127.0.0.1
+  # mysql 可以设置 host: 127.0.0.1 及 poet: 3306
   authorization:
   # 认证信息
     enable: true
@@ -70,7 +79,7 @@ TABLE:
     ObjectId: [ _id ]
 ```
 
-### 开始使用吧！
+### 开始使用
 
 > 导入上述例子中目录下的 index.js
 
@@ -102,4 +111,64 @@ db.user.find({ }, {_id: 0}, function(err, data) {
 //     ]
 //   }
 // ]
+```
+
+## 完整配置示例
+
+### mongodb
+
+* **index.js**
+
+```javascript
+const myDataBase = require('database-config');
+
+let db = new myDataBase(__dirname);
+db.Create();
+
+module.exports = db;
+```
+
+* **config.yml**
+
+```yml
+DATABASE:
+  name: mongodb
+  url: mongodb://localhost:27017/my_database
+  authorization:
+    enable: true
+    user: greatiga
+    pass: 123456
+
+TABLE:
+  user:
+    String: [ user_name, user_pwd, user_email ]
+    Number: [ user_phone ]
+    Array: [ user_friend ]
+    ObjectId: [ _id ]
+```
+
+### mysql
+
+* **index.js**
+
+```javascript
+const myDataBase = require('database-config');
+
+let db = new myDataBase(__dirname);
+db.Create();
+
+module.exports = db;
+```
+
+* **config.yml**
+
+```yml
+DATABASE:
+  name: mysql
+  host: localhost
+  port: 3306
+  authorization:
+    enable: true
+    user: greatiga
+    pass: 123456
 ```
