@@ -4,8 +4,8 @@
 
 * [步骤](#使用)
   * [创建文件](#create)
-  * [index.js](#index.js)
-  * [config.yml](#config.yml)
+  * [index.js](#indexjs)
+  * [config.yml](#configyml)
   * [开始使用](#开始使用)
 * [完整配置示例](#完整配置示例)
   * [mongodb](#mongodb)
