@@ -1,0 +1,26 @@
+{
+  "name": "simply-db",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tsc": "tsc src/index.ts --outDir test",
+    "clean": "rd /s/q test",
+    "exe_start": "node expamles/start.js",
+    "exe_mongodb": "node expamles/mongodb.js",
+    "exe_mysql": "node expamles/mysql.js",
+    "exe_manyTable": "node expamles/manyTableLink.js",
+    "compare_mongodb": "node compare/mongodb.js"
+  },
+  "author": "greatiga",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^14.14.7",
+    "chalk": "^4.1.0",
+    "fs": "^0.0.1-security",
+    "mongoose": "^5.10.18",
+    "mysql": "^2.18.1",
+    "typescript": "^4.0.5"
+  }
+}
