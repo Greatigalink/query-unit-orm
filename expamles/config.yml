@@ -1,0 +1,42 @@
+#数据库基本配置
+DATABASE:
+  name: mongodb
+  #name: mysql
+  url: mongodb://localhost:27017/great_blog
+  # host: 127.0.0.1
+  # port: 3306
+  # database: ry
+  type_check: true
+  authorization:
+    user: greatiga
+    pass: 123
+    # user: root
+    # password: x5
+
+#实体映射，用于构建实体模型以及查询字段的检查
+ENTITYMAP:
+
+  blogusers:
+    String: [user_name, user_avatar, user_pwd, user_email]
+    Number: [user_phone, user_priority]
+    Array: [user_friend]
+    ObjectId: [_id]
+    ArrayObj:
+      diary:
+        String: [user_diary_msg]
+        Date: [user_diary_date]
+
+  articles:
+    String: [art_tag, art_intro, art_title, art_content]
+    Number: [art_id, art_like, art_comment_count, art_view, art_priority]
+    ObjectId: [_id, art_user_id]
+    Date: [art_time]
+    Boolean: [art_display]
+ 
+  # mysql table: sys_food、sys_student
+  # sys_food:
+  #   String: [food_intro, food_classify, food_name, food_imgsrc]
+  #   Number: [id, food_rate, food_price, food_id]
+  # sys_student:
+  #   String: [student_name, student_hobby, student_status, student_sex, student_birthday]
+  #   Number: [student_id, student_age]

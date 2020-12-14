@@ -142,6 +142,6 @@ export default function typeCheck(
           );
     }
 
-    resolve();
+    resolve(null);
   });
 }

@@ -5,13 +5,13 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "tsc": "tsc src/index.ts --outDir test",
-    "clean": "rd /s/q test",
-    "exe_start": "node expamles/start.js",
-    "exe_mongodb": "node expamles/mongodb.js",
-    "exe_mysql": "node expamles/mysql.js",
-    "exe_manyTable": "node expamles/manyTableLink.js",
-    "compare_mongodb": "node compare/mongodb.js"
+    "tsc": "tsc src/index.ts --outDir execute",
+    "clean": "rd /s/q execute",
+    "exe_start": "node local_expamles/start.js",
+    "exe_mongodb": "node local_expamles/mongodb.js",
+    "exe_mysql": "node local_expamles/mysql.js",
+    "exe_manyTable": "node local_expamles/manyTableLink.js",
+    "compare_mongodb": "node local_expamles/mongodb.js"
   },
   "author": "greatiga",
   "license": "ISC",
