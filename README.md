@@ -28,9 +28,7 @@
 
 ## 创建文件
 
-> 选择一个目录用来存放两个基础配置文件
-
-> 目录结构
+> 选择一个目录用来存放两个基础配置文件，目录结构如下
 
 * dataBase //目录名随意
   * index.js
@@ -91,6 +89,8 @@ ENTITYMAP:
 ```
 
 ## 开始使用
+
+> 简单实例
 
 ```javascript
 const { Simply_DataBase } = require('simply-db');
@@ -204,7 +204,7 @@ ENTITYMAP:
 
 #### setPath
 
-> 设置配置文件路径可以，在需要动态改变时在使用它，否则建议 beginBuild() 时用 __dirname 作为参数传入，让程序帮你读取
+> 设置配置文件路径，在需要动态改变时在使用它，否则建议 beginBuild() 时用 __dirname 作为参数传入，让程序帮你读取
 
 ```javascript
 db.setPath('../../dataBase/config.yml');
