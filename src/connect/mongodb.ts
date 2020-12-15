@@ -13,14 +13,17 @@ export default class Mongodb {
   public authorization: AUTH;
   private _dataBase: any;
 
-  setConnectUrl(connectUrl: string) {
+  setConnectUrl(connectUrl: string, config: any) {
     this.connectUrl = connectUrl;
+    if(config.port && config.host && config.database) {
+      this.connectUrl = `mongodb://${config.host}:${config.port}/${config.database}`
+    }
   }
 
-  setAuthorization(auth: AUTH) {
+  setAuthorization(auth: any) {
     this.authorization = auth ? {
       user: auth.user || "",
-      pass: auth.pass || "",
+      pass: auth.password || "",
     } : null;
   }
 

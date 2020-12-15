@@ -1,13 +1,13 @@
 //原文件节点行--记录每一行内容及其缩进大小，便于下一步生成配置对象
 interface ymlNode {
-  indent: number,
-  key: string,
-  value: string
+  indent: number;
+  key: string;
+  value: string;
 }
 
 //配置对象节点--冒号左边为 key(字符串类型)，右边为 value(可能为基本类型值，也有可能为引用类型值)
 interface configNode {
-  [propName: string]: any
+  [propName: string]: any;
 }
 
 //检查语法格式--滤掉不规范的 yml 格式以及注释内容
@@ -37,7 +37,10 @@ function creatObj(arry: Array<ymlNode>): configNode {
         nowDeepObject[arry[i].key] = {};
         i = Node(nowDeepObject[arry[i].key], i + 1, arry[i].indent);
       } else {
-        nowDeepObject[arry[i].key] = arry[i].value;
+        let node = /\[.+\]/g.test(arry[i].value)
+          ? arry[i].value.replace(/[\[\]]/g, "").split(",")
+          : arry[i].value;
+        nowDeepObject[arry[i].key] = node;
       }
     }
     return i;

@@ -1,15 +1,15 @@
 #数据库基本配置
 DATABASE:
   name: mongodb
-  #name: mysql
-  url: mongodb://localhost:27017/great_blog
+  # name: mysql
+  # url: mongodb://localhost:27017/great_blog
   # host: 127.0.0.1
   # port: 3306
   # database: ry
   type_check: true
   authorization:
     user: greatiga
-    pass: 123
+    password: 123
     # user: root
     # password: x5
 

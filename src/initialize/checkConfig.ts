@@ -9,8 +9,10 @@ interface checkMsg {
 }
 
 const Mongodb_Error: Error = {
-  url: "Must to set URL!",
   name: "Must to set dataBase Type!",
+  host: "Must to set Host!",
+  port: "Must to set port!",
+  database: "Must to set database!",
 };
 const Mysql_Error: Error = {
   name: "Must to set dataBase Type!",
@@ -30,6 +32,9 @@ function Message(type: number, message: string): checkMsg {
 //Mongodb检查函数
 function checkMongodb(dataBaseConfig: any): checkMsg {
   let db_Config = Object.keys(dataBaseConfig.DATABASE);
+  if(dataBaseConfig.DATABASE.url) {
+    return Message(1, "Successful!");
+  }
   for (let item in Mongodb_Error) {
     if (db_Config.indexOf(item) == -1) {
       return Message(0, Mongodb_Error[item]);

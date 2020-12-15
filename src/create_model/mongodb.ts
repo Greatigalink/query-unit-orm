@@ -17,7 +17,7 @@ function gatherMap(schema_obj: COLLECTION, obj: any, entity_obj: any) {
   let type = Object.keys(obj);
   type.forEach((item_type: string) => {
     if (item_type != "ArrayObj") {
-      let columns = obj[item_type].replace(/[\[\]]/g, "").split(",");
+      let columns = obj[item_type];
       columns.forEach(
         (item_field: any) => {
           schema_obj[item_field] = TYPE[item_type];

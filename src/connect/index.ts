@@ -6,7 +6,7 @@ export default function Connect(_db: any, config: any) {
     switch(_db.name) {
       case 'mongodb': {
         const mongodb = new Mongodb();
-        mongodb.setConnectUrl(config.DATABASE.url);
+        mongodb.setConnectUrl(config.DATABASE.url, config.DATABASE);
         mongodb.setAuthorization(config.DATABASE.authorization ? config.DATABASE.authorization : null);
         mongodb.connect().then(
           (res) => resolve(res),
