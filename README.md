@@ -7,10 +7,12 @@
     * [index.js](#indexjs)
     * [config.yml](#configyml)
   * [开始使用](#开始使用)
+
 * [完整配置示例](#完整配置示例)
   * [mongodb](#mongodb)
   * [mysql](#mysql)
-* [详细文档](#详细文档)
+  
+* [接口文档](#接口文档)
   * [配置连接基础](#配置连接基础)
     * [Simply_DataBase](#Simply_DataBase)
     * [setPath](#setPath)
@@ -203,7 +205,7 @@ ENTITYMAP:
     Number: [student_id, student_age]
 ```
 
-## 详细文档
+## 接口文档
 
 ### 配置连接基础
 
@@ -317,6 +319,30 @@ db.beginBuild();
 
 > 数据库连接和其他查询配置
 
+```yml
+DATABASE:
+  name: mongodb
+  url: mongodb://localhost:27017/my_database
+  # Or
+  # host: localhost
+  # port: 27017
+  # database: my_database
+  authorization:
+    user: greatiga
+    pass: 123456
+
+####################
+####################
+DATABASE:
+  name: mysql
+  host: 127.0.0.1
+  port: 3306
+  database: my_database
+  authorization:
+    user: greatiga
+    pass: 123456
+```
+
 * name
   * 数据库名
   * mongodb | mysql
@@ -349,17 +375,13 @@ db.beginBuild();
   * 是否开启查询语句检查，开启后将会检查-**查询语句字段是否存在，以及字段类型是否正确**。但是这会损耗查询效率
   * true | false
 
-> **mongodb 可以使用 url 的方式设置连接信息，也可以通过分别设置 host,port等指定。两种方式同时有时程序以 url 为准**
+> **mongodb 可以使用 url 的方式设置连接信息，也可以通过分别设置 host,port等指定。两种方式同时存在时程序以 url 为准**
 
 > **mysql 只能通过设置 host,port等来指定连接信息**
 
 #### ENTITYMAP
 
 > 配置数据库中的表或集合，以及对应字段的类型。type_check 开启后，会根据该配置信息进行检查
-
-* 一级缩进为 ENTITYMAP
-* 二级缩进为表名
-* 三级缩进为类型，代表后面数组中的字段都是该类型
 
 ```yml
 ENTITYMAP:
@@ -373,5 +395,9 @@ ENTITYMAP:
     String: [food_intro, food_classify, food_name]
     Number: [id, food_price, food_id]
 ```
+
+* 一级缩进为 ENTITYMAP
+* 二级缩进为表名
+* 三级缩进为类型，代表后面数组中的字段都是该类型
 
 ### Query

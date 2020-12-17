@@ -29,12 +29,12 @@ function createPredicate(obj: any): string {
 //SQL语句: where 条件
 function createCondition(queryObj: any): string {
   let str_Or = [],
-    str_Link = [],
+    str_Like = [],
     str_And = [];
   let [OR, AND, LINK] = [
     queryObj.condition_Or,
     queryObj.condition_And,
-    queryObj.condition_Link,
+    queryObj.condition_Like,
   ];
 
   if (OR) {
@@ -50,10 +50,10 @@ function createCondition(queryObj: any): string {
 
   if (LINK) {
     for (let item in LINK) {
-      str_Link.push(`${item} LIKE "${LINK[item]}"`);
+      str_Like.push(`${item} LIKE "${LINK[item]}"`);
     }
     str_And.push(
-      `(${str_Link.join(` ${queryObj.link_Type} `.toLocaleUpperCase())})`
+      `(${str_Like.join(` ${queryObj.link_Type} `.toLocaleUpperCase())})`
     );
   }
 
@@ -130,18 +130,18 @@ function createUpdateField(queryObj: any) {
 //SQL语句: 排序和数量限制
 function createSortAndLimit(queryObj: any) {
   let sort = [],
-    limit = null;
+    Limit = null;
 
-  for (let item in queryObj.sort) {
+  for (let item in queryObj.Sort) {
     sort.push(`
-      ${item} ${queryObj.sort[item] == 1 ? "ASC" : "DESC"}
+      ${item} ${queryObj.Sort[item] == 1 ? "ASC" : "DESC"}
     `);
   }
-  limit = queryObj.limit;
+  Limit = queryObj.Limit;
 
   return {
     SORT: sort.join(","),
-    LIMIT: limit,
+    LIMIT: Limit,
   };
 }
 

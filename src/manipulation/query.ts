@@ -5,12 +5,12 @@ export default class QueryCommon {
   public unResultField: Array<string>;
   public updateField: object;
 
-  public limit: number;
-  public sort: object;
+  public Limit: number;
+  public Sort: object;
 
   public condition_And: object;
   public condition_Or: object;
-  public condition_Link: object;
+  public condition_Like: object;
   
   public one_Save: object;
   public many_Save: Array<object>;
@@ -23,11 +23,11 @@ export default class QueryCommon {
     this.resultField = null;
     this.unResultField = null;
     this.updateField = null;
-    this.limit = null;
-    this.sort = null;
+    this.Limit = null;
+    this.Sort = null;
     this.condition_And = null;
     this.condition_Or = null;
-    this.condition_Link = null;
+    this.condition_Like = null;
     this.one_Save = null;
     this.many_Save = null;
     this.link_Type = null;
@@ -35,81 +35,81 @@ export default class QueryCommon {
   }
 
   /**
-   * set_tableName
+   * setTableName
    * 设置查询元表名
    */
-  public set_tableName(tableName: string) {
+  public setTableName(tableName: string) {
     this.tableName = tableName;
   }
   /**
-   * set_ResultField
+   * result_Field
    * 设置查询元结果字段
    */
-  public set_ResultField(resultField: Array<string>) {
+  public result_Field(resultField: Array<string>) {
     this.resultField = resultField;
   }
   /**
-   * set_UnResultField
+   * unResult_Field
    * 设置不显示的字段
    */
-  public set_UnResultField(unResultField: Array<string>) {
+  public unResult_Field(unResultField: Array<string>) {
     this.unResultField = unResultField;
   }
   /**
-   * set_UpdateField
+   * update_Field
    * 设置查询元修改字段
    */
-  public set_UpdateField(updateField: object) {
+  public update_Field(updateField: object) {
     this.updateField = updateField;
   }
   /**
-   * set_Limit
+   * limit
    * 设置查询元查询结果数量限制
    */
-  public set_Limit(limit: number) {
-    this.limit = limit;
+  public limit(Limit: number) {
+    this.Limit = Limit;
   }
   /**
-   * set_Sort
+   * orderBy
    * 设置查询元结果排序
    */
-  public set_Sort(sort: object) {
-    this.sort = sort;
+  public orderBy(Sort: object) {
+    this.Sort = Sort;
   }
   /**
-   * set_ConditionAnd
+   * and
    * 设置查询元 And条件
    */
-  public set_ConditionAnd(condition_And: object) {
+  public and(condition_And: object) {
     this.condition_And = condition_And;
   }
   /**
-   * set_ConditionOr
+   * or
    * 设置查询元 Or条件
    */
-  public set_ConditionOr(condition_Or: object) {
+  public or(condition_Or: object) {
     this.condition_Or = condition_Or;
   }
   /**
-   * set_ConditionLink
+   * like
    * 设置查询元字符匹配字段
    */
-  public set_ConditionLink(condition_Link: object, link_Type = "or") {
-    this.condition_Link = condition_Link;
+  public like(condition_Like: object, link_Type = "or") {
+    this.condition_Like = condition_Like;
     this.link_Type = link_Type;
   }
   /**
-   * set_OneSave
+   * oneSave
    * 创建一条插入语句
    */
-  public set_OneSave(one_Save: object) {
+  public oneSave(one_Save: object) {
     this.one_Save = one_Save;
   }
   /**
-   * set_ManySave
+   * manySave
    * 创建多条插入语句
    */
-  public set_ManySave(many_Save: Array<object>) {
+  public manySave(many_Save: Array<object>) {
     this.many_Save = many_Save;
   }
 

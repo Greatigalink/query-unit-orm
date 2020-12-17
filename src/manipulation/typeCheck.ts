@@ -19,13 +19,13 @@ function itemTypeCheck(Enitiy: any, tableName: string, item_obj: any) {
 
 function columnsCheck(Enitiy: any, tableName: string, columns_obj: any) {
   for (let item in columns_obj) {
-    if (getType(columns_obj[item]) == "object") {
-      continue;
-    } else if (!Enitiy[tableName][item]) {
+    if (!Enitiy[tableName][item]) {
       return {
         code: 105,
         message: `There is no "${item}" field in ${tableName}...`,
       };
+    } else if (getType(columns_obj[item]) == "object") {
+      continue;
     } else if (Enitiy[tableName][item] != getType(columns_obj[item])) {
       return {
         code: 106,
@@ -37,10 +37,13 @@ function columnsCheck(Enitiy: any, tableName: string, columns_obj: any) {
 }
 
 function manySaveCheck(obj: any) {
-  return Array.isArray(obj) ? false : {
-    code: 113,
-    message: "This set_ManySave() or many_Save of value Must be of 'array' type!"
-  };
+  return Array.isArray(obj)
+    ? false
+    : {
+        code: 113,
+        message:
+          "This set_ManySave() or many_Save of value Must be of 'array' type!",
+      };
 }
 
 function sortCheck(Enitiy: any, tableName: string, columns_obj: any) {
@@ -78,7 +81,12 @@ export default function typeCheck(
       );
     }
 
-    if ((Opera_Type == 1 && !queryObj.one_Save) && (Opera_Type == 1 && !queryObj.many_Save)) {
+    if (
+      Opera_Type == 1 &&
+      !queryObj.one_Save &&
+      Opera_Type == 1 &&
+      !queryObj.many_Save
+    ) {
       reject(
         Error({
           code: 109,
@@ -91,7 +99,7 @@ export default function typeCheck(
       queryObj.one_Save && Opera_Type == 1
         ? columnsCheck(Enitiy, tableName, queryObj.one_Save)
         : false;
-      
+
     let ManySave =
       queryObj.many_Save && Opera_Type == 1
         ? manySaveCheck(queryObj.many_Save)
@@ -112,14 +120,13 @@ export default function typeCheck(
     let Or = queryObj.condition_Or
       ? columnsCheck(Enitiy, tableName, queryObj.condition_Or)
       : false;
-    let Link = queryObj.condition_Link
-      ? itemTypeCheck(Enitiy, tableName, Object.keys(queryObj.condition_Link))
+    let Link = queryObj.condition_Like
+      ? itemTypeCheck(Enitiy, tableName, Object.keys(queryObj.condition_Like))
       : false;
-    let Sort = queryObj.sort
-      ? sortCheck(Enitiy, tableName, queryObj.sort)
+    let Sort = queryObj.Sort
+      ? sortCheck(Enitiy, tableName, queryObj.Sort)
       : false;
-    let Limit = queryObj.limit ? typeof queryObj.limit : null;
-
+    let Limit = queryObj.Limit ? typeof queryObj.Limit : null;
 
     !OneSave ? OneSave : reject(Error(OneSave));
     !ManySave ? ManySave : reject(Error(ManySave));

@@ -19,10 +19,10 @@ function createCondition(queryObj: any): CONDITION {
     }
     obj.$or = array;
   }
-  if (queryObj.condition_Link) {
-    for (let item in queryObj.condition_Link) {
+  if (queryObj.condition_Like) {
+    for (let item in queryObj.condition_Like) {
       obj[item] = {
-        $regex: queryObj.condition_Link[item],
+        $regex: queryObj.condition_Like[item],
       };
     }
   }
@@ -80,7 +80,7 @@ function Remove_Mongodb(dataBase: any, queryObj: any) {
   let QUERY = dataBase[queryObj.tableName].remove(
     Object.keys(condition).length == 0 ? { Default: true } : condition,
     {
-      justOne: queryObj.limit == 1 ? true : false,
+      justOne: queryObj.Limit == 1 ? true : false,
     }
   );
 
@@ -102,8 +102,8 @@ function Update_Mongodb(dataBase: any, queryObj: any) {
     createUpdateField(queryObj)
   );
 
-  queryObj.sort ? QUERY.sort(queryObj.sort) : QUERY;
-  queryObj.limit ? QUERY.limit(queryObj.limit) : QUERY;
+  queryObj.Sort ? QUERY.sort(queryObj.Sort) : QUERY;
+  queryObj.Limit ? QUERY.limit(queryObj.Limit) : QUERY;
 
   return new Promise((resolve, reject) => {
     QUERY.exec(function (err: any, data: any) {
@@ -123,8 +123,8 @@ function Find_Mongodb(dataBase: any, queryObj: any, enitiy: any) {
     createResultField(queryObj, enitiy)
   );
 
-  queryObj.sort ? QUERY.sort(queryObj.sort) : QUERY;
-  queryObj.limit ? QUERY.limit(queryObj.limit) : QUERY;
+  queryObj.Sort ? QUERY.sort(queryObj.Sort) : QUERY;
+  queryObj.Limit ? QUERY.limit(queryObj.Limit) : QUERY;
 
   return new Promise((resolve, reject) => {
     QUERY.exec(function (err: any, data: any) {
