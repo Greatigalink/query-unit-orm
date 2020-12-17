@@ -13,7 +13,7 @@ interface DBCONFIG {
   [propName: string]: any;
 }
 
-export class Simply_DataBase {
+export class simplyORM {
   public path: string;
   public configFile: string;
   public dataBaseConfig: DBCONFIG;

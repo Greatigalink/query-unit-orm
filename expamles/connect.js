@@ -1,6 +1,6 @@
-const { Simply_DataBase } = require("simply-db");
+const { simplyORM } = require("simply-orm");
 
-const db = new Simply_DataBase(__dirname);
+const db = new simplyORM(__dirname);
 
 db.beginBuild().then(
   res => console.log(res),

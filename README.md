@@ -14,7 +14,7 @@
   
 * [接口文档](#接口文档)
   * [配置连接基础](#配置连接基础)
-    * [Simply_DataBase](#Simply_DataBase)
+    * [simplyORM](#simplyORM)
     * [setPath](#setPath)
     * [setConfigFile](#setConfigFile)
     * [setDataBaseConfig](#setDataBaseConfig)
@@ -23,15 +23,28 @@
   * [配置文件 config.yml 说明](#配置文件config.yml说明)
     * [DATABASE](#DATABASE)
     * [ENTITYMAP](#ENTITYMAP)
-  * [Query](#Query)
+  * [查询元](#查询元)
+    * [前言](#前言)
+    * [Query](#Query)
+    * [result_Field](#result_Field)
+    * [unResult_Field](#unResult_Field)
+    * [update_Field](#update_Field)
+    * [and](#and)
+    * [or](#or)
+    * [like](#like)
+  * [操作](#操作)
+    * [Find](#Find)
+    * [Update](#Update)
+    * [Remove](#Remove)
+    * [Save](#Save)
 
 
 
 ## 下载安装
 
-> npm i simply-db
+> npm i simply-orm
 
-> cnpm i simply-db
+> cnpm i simply-orm
 
 ## 创建文件
 
@@ -46,9 +59,9 @@
 > 加载数据库对象
 
 ```javascript
-const { Simply_DataBase } = require('simply-db');
+const { simplyORM } = require('simply-orm');
 
-let db = new Simply_DataBase(__dirname);
+let db = new simplyORM(__dirname);
 //创建一个数据库连接对象
 //设置__dirname 之后，可以自动读取同目录下的配置文件 config.yml，或者可以自行设置目录位置
 db.beginBuild();
@@ -100,10 +113,10 @@ ENTITYMAP:
 > 简单实例
 
 ```javascript
-const { Simply_DataBase } = require('simply-db');
+const { simplyORM } = require('simply-orm');
 
 //读取目录下的 config.yml 配置文件
-let db = new Simply_DataBase(__dirname);
+let db = new simplyORM(__dirname);
 
 //开始构建连接
 db.beginBuild().then(
@@ -214,8 +227,8 @@ ENTITYMAP:
 > 构造函数，用于创建一个数据库对象
 
 ```javascript
-const { Simply_DataBase } = require('simply-db');
-let db = new Simply_DataBase(); 
+const { simplyORM } = require('simply-orm');
+let db = new simplyORM(); 
 ```
 
 #### setPath
@@ -269,8 +282,8 @@ db.setDataBaseConfig(config);
 * 方式一
 
 ```javascript
-const { Simply_DataBase } = require('simply-db');
-let db = new Simply_DataBase(); 
+const { simplyORM } = require('simply-orm');
+let db = new simplyORM(); 
 db.setPath("../../dataBase/config.yml");
 db.beginBuild();
 ```
@@ -278,7 +291,7 @@ db.beginBuild();
 * 方式二
 
 ```javascript
-const { Simply_DataBase } = require('simply-db');
+const { simplyORM } = require('simply-orm');
 let config = {
   DATABASE: {
     name: "mongodb",
@@ -296,7 +309,7 @@ let config = {
     }
   }
 }
-let db = new Simply_DataBase();
+let db = new simplyORM();
 db.setDataBaseConfig(config)//setDataBaseConfig 的方式配置对象
 db.beginBuild();
 ```
@@ -306,8 +319,8 @@ db.beginBuild();
 > 将配置文件 config.yml 放在当前目录下。 __dirname值为当前目录路径，全局变量直接使用，不需要定义；当然也可以自己传入指定的路径作为参数，若采用第二种情况则与方式一没什么区别。
 
 ```javascript
-const { Simply_DataBase } = require('simply-db');
-let db = new Simply_DataBase(__dirname);
+const { simplyORM } = require('simply-orm');
+let db = new simplyORM(__dirname);
 //Or
 //let db = new Simply_DataBase("../../dataBase/config.yml");
 db.beginBuild();
@@ -400,4 +413,321 @@ ENTITYMAP:
 * 二级缩进为表名
 * 三级缩进为类型，代表后面数组中的字段都是该类型
 
-### Query
+### Curd
+
+#### 前言
+
+> simply-orm 与其他 ORM 框架一样，主张将原生的 sql 语句与实体对象做映射。
+
+> 首先，每一个不可继续细分的查询语句，都应该包括(属性)和(动作)
+
+* 属性
+  * 表名或集合名: 即所要查询的集合或者表格--必须
+  * 结果字段: 即查询结果后应展示哪一些表中字段--必须
+  * insert数据: 插入时提供的数据--可选
+  * 修改字段: 当需要修改时指定修改数据--当修改操作时必须
+  * 查询条件: 包括(AND, OR, LIKE)--可选
+  * 结果排序: orderBy--可选
+  * 数量限制: limit--可选
+
+* 动作
+  * find: 根据 **查询条件 + 结果排序(可选) + 数量限制(可选)** 查找
+  * update: 根据 **查询条件 + 修改字段** 修改
+  * remove: 根据 **查询条件 + 数量限制(可选)** 删除
+  * save: 根据 **insert数据** 存储
+
+> 在此基础上，扩展至级联查询(目前还没有做......)
+
+> simply-orm 将这样的一个不可继续细分的查询语句称为**查询元**。对该查询元进行属性约束后，用不同的动作即可对它进行 curd
+
+#### 逻辑谓词
+
+> 参考 mongoose 的写法
+
+```yml
+  $gt: >
+  $lt: <
+  $gte: >=
+  $lte: <=
+  $ne: !=
+```
+
+> **以下为属性部分的操作，由 new db.Query("XX") 产生的对象所拥有**
+
+#### Query
+
+> 请使用上述创建的数据库对象来定义。
+
+* 接受一个参数，值为表格名或者集合名
+
+```yml
+DATABASE:
+  name: mysql
+  ...
+  ...
+ENTITYMAP:
+  user:
+    String: [ user_name, user_pwd, user_email ]
+    Number: [ user_phone, user_age, user_class ]
+    ObjectId: [ _id ]
+    Array: [ user_friend ]
+```
+
+```javascript
+const { simplyORM } = require('simply-orm');
+let db = new simplyORM(__dirname);
+db.beginBuild().then(() => Test());
+
+async function Test() {
+  let user = new db.Query("user");
+}
+```
+
+> 上述代码创建了一个新的 user(表格/集合) 查询元
+
+#### result_Field
+
+> 结果字段，采用数组的形式指定结果应该包含哪些字段
+
+* 接受一个数组作为参数
+
+> **SQL--SELECT user_name, user_phone, user_email FROM user;**
+
+```javascript
+const { simplyORM } = require('simply-orm');
+let db = new simplyORM(__dirname);
+db.beginBuild().then(() => Test());
+
+async function Test() {
+  let user = new db.Query("user");
+
+  user.result_Field(["user_name", "user_phone", "user_email"]);
+
+  let result = await db.Find(user);
+  console.log(result);
+}
+// [
+//   {
+//     user_name: 'tom',
+//     user_email: '123@qq.com',
+//     user_phone: 111111,
+//   },
+//     {
+//     user_name: 'bob',
+//     user_email: '12344@qq.com',
+//     user_phone: 77777,
+//   }
+// ]
+```
+
+#### unResult_Field
+
+> 除指定字段外的所有字段，即: 删除指定的字段，其余都展示
+
+* 接受一个数组作为参数
+
+> **SQL--SELECT _id, user_name, user_pwd, user_friend FROM user;**
+
+```javascript
+let user = new db.Query("user");
+user.unResult_Field(["user_phone", "user_email"]);
+let result = await db.Find(user);
+console.log(result);
+// [
+//   {
+//     _id_: 1,
+//     user_name: 'tom',
+//     user_pwd: 123,
+//     user_friend: ['bob'],
+//     user_age: 18,
+//     user_class: 101
+//   },
+//   {
+//     _id_: 2,
+//     user_name: 'bob',
+//     user_pwd: 456,
+//     user_friend: ['tom'],
+//     user_age: 19,
+//     user_class: 101
+//   },
+//   {
+//     _id_: 3,
+//     user_name: 'hello',
+//     user_pwd: xc123,
+//     user_friend: ['bob'],
+//     user_age: 20,
+//     user_class: 102
+//   },
+// ]
+```
+
+> 上述 user_phone 和 user_email 不要，其他都展示
+
+#### update_Field
+
+> 指定修改字段
+
+* 接受一个对象作为参数
+
+> **SQL--UPDATE user SET user_pwd = 789 WHERE user_name = "tom";**
+
+```javascript
+let user = new db.Query("user");
+
+user.update_Field({ user_pwd: 789 });
+user.and({ user_name: 'tom' });
+
+db.Update(user).then(
+  //....
+)
+```
+
+#### and
+
+> 指定并列条件，优先级最高
+
+* 接受一个对象作为参数
+
+> **SQL--SELECT user_name, user_pwd, user_phone FROM user WHERE user_class = 101 AND user_age > 18;**
+
+```javascript
+let user = new db.Query("user");
+
+user.update_Field({ user_pwd: 789 });
+user.and({ 
+  user_age: { $gt: 18 },
+  user_class: 101 
+});
+
+let result = await db.Find(user);
+consoel.log(result)
+//[
+//   {
+//     _id_: 2,
+//     user_name: 'bob',
+//     user_pwd: 456,
+//     user_friend: ['tom'],
+//     user_age: 19,
+//     user_class: 101
+//   },
+//]
+```
+
+#### or
+
+> 条件 or
+
+* 接受一个对象作为参数
+
+> **SQL--SELECT user_name, user_pwd, user_phone FROM user WHERE user_class = 101 OR user_age > 18;**
+
+```javascript
+let user = new db.Query("user");
+
+user.update_Field({ user_pwd: 789 });
+user.or({ 
+  user_age: { $gt: 18 },
+  user_class: 101 
+});
+
+let result = await db.Find(user);
+consoel.log(result)
+//[
+//   {
+//     _id_: 1,
+//     user_name: 'tom',
+//     user_pwd: 123,
+//     user_friend: ['bob'],
+//     user_age: 18,
+//     user_class: 101
+//   },
+//   {
+//     _id_: 2,
+//     user_name: 'bob',
+//     user_pwd: 456,
+//     user_friend: ['tom'],
+//     user_age: 19,
+//     user_class: 101
+//   },
+//]
+```
+
+#### link
+
+> 模糊匹配
+
+* 接受一个对象作为参数
+
+> **SQL--SELECT user_name, user_pwd, user_phone FROM user WHERE user_name LIKE "he%"**
+
+```javascript
+let user = new db.Query("user");
+
+user.like({ user_name: "he%" });
+
+let result = await db.Find(user);
+consoel.log(result)
+//[
+//   {
+//     _id_: 3,
+//     user_name: 'hello',
+//     user_pwd: xc123,
+//     user_friend: ['bob'],
+//     user_age: 20,
+//     user_class: 102
+//   },
+//]
+```
+
+### 操作
+
+> **以下为数据库对象 db(名字取决于你的定义，不代表必须是这个名字) 所拥有，即 new simplyORM() 所创对象**
+
+#### Find
+
+> 对传入的查询元执行查找。
+
+* 异步操作，可使用 await 或 then()
+
+```javascript
+let user = new db.Query("user");
+//...
+db.Find(user);
+```
+
+#### Update
+
+> 对传入的查询元执行修改。
+
+* 异步操作，可使用 await 或 then()
+
+```javascript
+let user = new db.Query("user");
+//...
+db.Update(user);
+```
+
+#### Remove
+
+> 对传入的查询元执行删除。
+
+* 异步操作，可使用 await 或 then()
+
+```javascript
+let user = new db.Query("user");
+//...
+db.Remove(user);
+```
+
+#### Save
+
+> 对传入的查询元执行存储。
+
+* 异步操作，可使用 await 或 then()
+
+```javascript
+let user = new db.Query("user");
+//...
+db.Save(user);
+```
+
