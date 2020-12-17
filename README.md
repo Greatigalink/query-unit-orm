@@ -8,7 +8,7 @@
     * [config.yml](#configyml)
   * [开始使用](#开始使用)
 
-* [完整配置示例](#完整配置示例)
+* [配置示例](#完整配置示例)
   * [mongodb](#mongodb)
   * [mysql](#mysql)
   
@@ -38,6 +38,9 @@
     * [Remove](#Remove)
     * [Save](#Save)
 
+* [代码示例](#代码示例)
+  * [ex1](#ex1)
+  * [ex2](#ex2)
 
 
 ## 下载安装
@@ -154,7 +157,7 @@ async function Select() {
 // ]
 ```
 
-## 完整配置示例
+## 配置示例
 
 ### mongodb
 
@@ -456,8 +459,6 @@ ENTITYMAP:
 
 #### Query
 
-> 请使用上述创建的数据库对象来定义。
-
 * 接受一个参数，值为表格名或者集合名
 
 ```yml
@@ -561,8 +562,6 @@ console.log(result);
 // ]
 ```
 
-> 上述 user_phone 和 user_email 不要，其他都展示
-
 #### update_Field
 
 > 指定修改字段
@@ -584,8 +583,6 @@ db.Update(user).then(
 
 #### and
 
-> 指定并列条件，优先级最高
-
 * 接受一个对象作为参数
 
 > **SQL--SELECT user_name, user_pwd, user_phone FROM user WHERE user_class = 101 AND user_age > 18;**
@@ -593,7 +590,7 @@ db.Update(user).then(
 ```javascript
 let user = new db.Query("user");
 
-user.update_Field({ user_pwd: 789 });
+user.result_Field(["_id", "user_name", "user_pwd", "user_friend", "user_age", "user_class"]);
 user.and({ 
   user_age: { $gt: 18 },
   user_class: 101 
@@ -615,8 +612,6 @@ consoel.log(result)
 
 #### or
 
-> 条件 or
-
 * 接受一个对象作为参数
 
 > **SQL--SELECT user_name, user_pwd, user_phone FROM user WHERE user_class = 101 OR user_age > 18;**
@@ -624,7 +619,7 @@ consoel.log(result)
 ```javascript
 let user = new db.Query("user");
 
-user.update_Field({ user_pwd: 789 });
+user.result_Field(["_id", "user_name", "user_pwd", "user_friend", "user_age", "user_class"]);
 user.or({ 
   user_age: { $gt: 18 },
   user_class: 101 
@@ -656,14 +651,17 @@ consoel.log(result)
 
 > 模糊匹配
 
-* 接受一个对象作为参数
+* 接受两个参数
+  * 参数一为对象
+  * 参数二为多个模糊查询时并列与否。可选值 and | or，默认为 or
 
-> **SQL--SELECT user_name, user_pwd, user_phone FROM user WHERE user_name LIKE "he%"**
+> **SQL--SELECT user_name, user_pwd, user_phone FROM user WHERE user_name LIKE "he%" AND user_email LIKE "@%";**
 
 ```javascript
 let user = new db.Query("user");
 
-user.like({ user_name: "he%" });
+user.result_Field(["_id", "user_name", "user_pwd", "user_friend", "user_age", "user_email"]);
+user.like({ user_name: "he%", user_email: "@%" }, "and");
 
 let result = await db.Find(user);
 consoel.log(result)
@@ -674,7 +672,7 @@ consoel.log(result)
 //     user_pwd: xc123,
 //     user_friend: ['bob'],
 //     user_age: 20,
-//     user_class: 102
+//     user_email: "123@qq.com"
 //   },
 //]
 ```
@@ -731,3 +729,68 @@ let user = new db.Query("user");
 db.Save(user);
 ```
 
+## 代码示例
+
+> 设定如下表格或者集合
+
+```yml
+DATABASE:
+  name: mongodb
+  url: mongodb://localhost:27017/my_database
+  authorization:
+    user: greatiga
+    pass: 123456
+
+ENTITYMAP:
+  user:
+    String: [ user_name, user_pwd, user_email, user_intro ]
+    Number: [ user_phone, user_class ]
+    ObjectId: [ _id ]
+    Array: [ user_friend ]
+
+  food:
+    String: [food_intro, food_classify, food_name]
+    Number: [id, food_price, food_id]
+```
+
+### ex1
+
+> 个人介绍"加油"结尾,或者邮箱包含有"tom",并且年龄大于18的人。只展示名字，邮箱，年龄，个人介绍
+
+> **SQL--SELECT user_name, user_age, user_intro FROM user WHERE (user_intro LIKE "%你好" OR user_email LIKE "%tom%") AND user_age > 18;
+
+```javascript
+const { simplyORM } = require('simply-orm');
+let db = new simplyORM(__dirname);
+db.beginBuild().then(() => Test());
+
+async function Test() {
+  let user = new db.Query("user");
+
+  user.result_Field(["user_name", "user_age", "user_intro"]);
+  user.like({
+    user_intro: "%加油",
+    user_email: "%tom%"
+  });
+  user.and({ user_age: { $gt: 18} });
+
+  let result = await db.Find(user);
+  console.log(result);
+}
+// [
+//   {
+//     user_name: 'tom',
+//     user_intro: '我是tom，大家好',
+//     user_email: "mytom@123.com"
+//     user_age: 19,
+//   },
+//   {
+//     user_name: 'bob',
+//     user_intro: '我是bob，大家一起加油',
+//     user_email: "mybob@123.com"
+//     user_age: 20,
+//   }
+// ]
+```
+
+### ex2
