@@ -1,5 +1,5 @@
-const { simplyORM } = require("simply-orm");
-const db = new simplyORM(__dirname);
+const { queryUnitORM } = require("query-unit-orm");
+const db = new queryUnitORM(__dirname);
 
 db.beginBuild().then((res) => {
   let art = new db.Query("articles");

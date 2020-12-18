@@ -1,4 +1,4 @@
-# simply-db
+# query-unit-orm
 
 # 目录
 
@@ -45,9 +45,9 @@
 
 ## 下载安装
 
-> npm i simply-orm
+> npm i query-unit-orm
 
-> cnpm i simply-orm
+> cnpm i query-unit-orm
 
 ## 创建文件
 
@@ -62,9 +62,9 @@
 > 加载数据库对象
 
 ```javascript
-const { simplyORM } = require('simply-orm');
+const { queryUnitORM } = require('query-unit-orm');
 
-let db = new simplyORM(__dirname);
+let db = new queryUnitORM(__dirname);
 //创建一个数据库连接对象
 //设置__dirname 之后，可以自动读取同目录下的配置文件 config.yml，或者可以自行设置目录位置
 db.beginBuild();
@@ -116,10 +116,10 @@ ENTITYMAP:
 > 简单实例
 
 ```javascript
-const { simplyORM } = require('simply-orm');
+const { queryUnitORM } = require('query-unit-orm');
 
 //读取目录下的 config.yml 配置文件
-let db = new simplyORM(__dirname);
+let db = new queryUnitORM(__dirname);
 
 //开始构建连接
 db.beginBuild().then(
@@ -230,8 +230,8 @@ ENTITYMAP:
 > 构造函数，用于创建一个数据库对象
 
 ```javascript
-const { simplyORM } = require('simply-orm');
-let db = new simplyORM(); 
+const { queryUnitORM } = require('query-unit-orm');
+let db = new queryUnitORM(); 
 ```
 
 #### setPath
@@ -285,8 +285,8 @@ db.setDataBaseConfig(config);
 * 方式一
 
 ```javascript
-const { simplyORM } = require('simply-orm');
-let db = new simplyORM(); 
+const { queryUnitORM } = require('query-unit-orm');
+let db = new queryUnitORM(); 
 db.setPath("../../dataBase/config.yml");
 db.beginBuild();
 ```
@@ -294,7 +294,7 @@ db.beginBuild();
 * 方式二
 
 ```javascript
-const { simplyORM } = require('simply-orm');
+const { queryUnitORM } = require('query-unit-orm');
 let config = {
   DATABASE: {
     name: "mongodb",
@@ -312,7 +312,7 @@ let config = {
     }
   }
 }
-let db = new simplyORM();
+let db = new queryUnitORM();
 db.setDataBaseConfig(config)//setDataBaseConfig 的方式配置对象
 db.beginBuild();
 ```
@@ -322,8 +322,8 @@ db.beginBuild();
 > 将配置文件 config.yml 放在当前目录下。 __dirname值为当前目录路径，全局变量直接使用，不需要定义；当然也可以自己传入指定的路径作为参数，若采用第二种情况则与方式一没什么区别。
 
 ```javascript
-const { simplyORM } = require('simply-orm');
-let db = new simplyORM(__dirname);
+const { queryUnitORM } = require('query-unit-orm');
+let db = new queryUnitORM(__dirname);
 //Or
 //let db = new Simply_DataBase("../../dataBase/config.yml");
 db.beginBuild();
@@ -475,8 +475,8 @@ ENTITYMAP:
 ```
 
 ```javascript
-const { simplyORM } = require('simply-orm');
-let db = new simplyORM(__dirname);
+const { queryUnitORM } = require('query-unit-orm');
+let db = new queryUnitORM(__dirname);
 db.beginBuild().then(() => Test());
 
 async function Test() {
@@ -495,8 +495,8 @@ async function Test() {
 > **SQL--SELECT user_name, user_phone, user_email FROM user;**
 
 ```javascript
-const { simplyORM } = require('simply-orm');
-let db = new simplyORM(__dirname);
+const { queryUnitORM } = require('query-unit-orm');
+let db = new queryUnitORM(__dirname);
 db.beginBuild().then(() => Test());
 
 async function Test() {
@@ -760,8 +760,8 @@ ENTITYMAP:
 > **SQL--SELECT user_name, user_age, user_intro FROM user WHERE (user_intro LIKE "%你好" OR user_email LIKE "%tom%") AND user_age > 18;
 
 ```javascript
-const { simplyORM } = require('simply-orm');
-let db = new simplyORM(__dirname);
+const { queryUnitORM } = require('query-unit-orm');
+let db = new queryUnitORM(__dirname);
 db.beginBuild().then(() => Test());
 
 async function Test() {
