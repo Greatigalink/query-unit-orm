@@ -7,5 +7,5 @@ interface ERROR {
 }
 
 export default function Error(errorObj: ERROR): string {
-  return ERROR(`\n   Simply_DB[ERROR] errorCode: ${errorObj.code}\n   <<<<\n\tMessage: ${errorObj.message}\n   >>>>`);
+  return ERROR(`\n   query-unit-orm[ERROR] errorCode: ${errorObj.code}\n   <<<<\n\tMessage: ${errorObj.message}\n   >>>>`);
 }
