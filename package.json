@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "tsc": "tsc src/index.ts --outDir execute",
+    "npm-service": "tsc src/index.ts --outDir F:/后端工程化项目/npm包部署/query-unit-orm",
     "clean": "rd /s/q execute",
     "exe_start": "node local_expamles/start.js",
     "exe_mongodb": "node local_expamles/mongodb.js",
