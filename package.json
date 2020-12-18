@@ -1,5 +1,5 @@
 {
-  "name": "simply-db",
+  "name": "query-unit-orm",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -22,6 +22,7 @@
     "fs": "^0.0.1-security",
     "mongoose": "^5.10.18",
     "mysql": "^2.18.1",
+    "query-unit-orm": "^1.0.0",
     "typescript": "^4.0.5"
   }
 }
