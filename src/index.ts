@@ -129,6 +129,16 @@ export class queryUnitORM {
     this.TypeCheck ? await typeCheck(this.Enitiy, query_obj, 4) : this.TypeCheck;
     return await Find(this._db, this.dataBase, query_obj, this.Enitiy);
   }
+
+  /**
+   * FindOne
+   * 执行查询一次操作
+   */
+  public async FindOne(query_obj: any) {
+    this.TypeCheck ? await typeCheck(this.Enitiy, query_obj, 4) : this.TypeCheck;
+    let result = await Find(this._db, this.dataBase, query_obj, this.Enitiy);
+    return result ? result : null;
+  }
   /**
    * beginBuild
    * 初始化链接并生成实体映射
