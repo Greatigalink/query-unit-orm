@@ -137,7 +137,7 @@ export class queryUnitORM {
   public async FindOne(query_obj: any) {
     this.TypeCheck ? await typeCheck(this.Enitiy, query_obj, 4) : this.TypeCheck;
     let result: any = await Find(this._db, this.dataBase, query_obj, this.Enitiy);
-    return result ? result[0] : null;
+    return result.length > 0 ? result[0] : null;
   }
   /**
    * beginBuild
