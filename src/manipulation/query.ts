@@ -40,6 +40,7 @@ export default class QueryCommon {
    */
   public setTableName(tableName: string) {
     this.tableName = tableName;
+    return this;
   }
   /**
    * result_Field
@@ -47,6 +48,7 @@ export default class QueryCommon {
    */
   public result_Field(resultField: Array<string>) {
     this.resultField = resultField;
+    return this;
   }
   /**
    * unResult_Field
@@ -54,6 +56,7 @@ export default class QueryCommon {
    */
   public unResult_Field(unResultField: Array<string>) {
     this.unResultField = unResultField;
+    return this;
   }
   /**
    * update_Field
@@ -61,6 +64,7 @@ export default class QueryCommon {
    */
   public update_Field(updateField: object) {
     this.updateField = updateField;
+    return this;
   }
   /**
    * limit
@@ -68,6 +72,7 @@ export default class QueryCommon {
    */
   public limit(Limit: number) {
     this.Limit = Limit;
+    return this;
   }
   /**
    * orderBy
@@ -75,6 +80,7 @@ export default class QueryCommon {
    */
   public orderBy(Sort: object) {
     this.Sort = Sort;
+    return this;
   }
   /**
    * and
@@ -82,6 +88,7 @@ export default class QueryCommon {
    */
   public and(condition_And: object) {
     this.condition_And = condition_And;
+    return this;
   }
   /**
    * or
@@ -89,6 +96,7 @@ export default class QueryCommon {
    */
   public or(condition_Or: object) {
     this.condition_Or = condition_Or;
+    return this;
   }
   /**
    * like
@@ -97,6 +105,7 @@ export default class QueryCommon {
   public like(condition_Like: object, link_Type = "or") {
     this.condition_Like = condition_Like;
     this.link_Type = link_Type;
+    return this;
   }
   /**
    * oneSave

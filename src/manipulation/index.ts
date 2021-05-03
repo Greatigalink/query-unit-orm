@@ -1,5 +1,5 @@
-import { Save_Mongodb, Remove_Mongodb, Update_Mongodb, Find_Mongodb } from './mongodb';
-import { Save_Mysql, Remove_Mysql, Update_Mysql, Find_Mysql } from './mysql';
+import { Save_Mongodb, Remove_Mongodb, Update_Mongodb, Find_Mongodb } from './mongodb/mongodb';
+import { Save_Mysql, Remove_Mysql, Update_Mysql, Find_Mysql } from './mysql/mysql';
 import typeCheck from './typeCheck';
 
 async function Save(_db: any ,dataBase: any, queryObj: any) {
