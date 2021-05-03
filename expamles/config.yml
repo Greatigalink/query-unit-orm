@@ -5,13 +5,13 @@ DATABASE:
   # url: mongodb://localhost:27017/great_blog
   # host: 127.0.0.1
   # port: 3306
-  # database: ry
+  # database: my_database
   type_check: true
   authorization:
     user: greatiga
     password: 123
     # user: root
-    # password: x5
+    # password: 123
 
 #实体映射，用于构建实体模型以及查询字段的检查
 ENTITYMAP:

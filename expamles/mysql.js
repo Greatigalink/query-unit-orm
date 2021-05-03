@@ -9,22 +9,21 @@ db.beginBuild().then(
 
 async function Test() {
   let std = new db.Query("sys_student");
-  // std.set_ConditionAnd({
+  // std.and({
   //   student_name: "李华",
-  // });
-  // std.set_UpdateField({
+  // }).update_Field({
   //   student_age: 20,
   //   student_hobby: "请别人帮忙写英语作文"
   // })
 
-  std.set_OneSave({
+  std.oneSave({
     student_name: "李晓",
     student_age: 18,
     student_sex: "女",
     student_hobby: "写作文",
     student_birthday: new Date("2001/09/23").toLocaleString(),
   })
-  // std.set_ManySave([
+  // std.manySave([
   //   {
   //     student_name: "李华",
   //     student_age: 23,

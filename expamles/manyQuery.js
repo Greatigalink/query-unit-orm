@@ -8,15 +8,13 @@ db.beginBuild().then(
 
 async function selectName() {
   let user_1 = new db.Query("blogusers");
-  user_1.set_ResultField(["_id", "user_name"]);
+  user_1.result_Field(["_id", "user_name"]);
   
   let user_2 = new db.Query("blogusers");
-  user_2.set_UnResultField(["_id", "user_friend"])
-  user_2.set_Limit(3)
+  user_2.unResult_Field(["_id", "user_friend"]).limit(3)
 
   let arts = new db.Query("articles");
-  arts.set_UnResultField(["art_content"])
-  arts.set_Limit(5)
+  arts.unResult_Field(["art_content"]).limit(5)
 
   let list_1 = await db.Find(user_1)
   let list_2 = await db.Find(user_2)
