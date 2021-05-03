@@ -18,6 +18,13 @@ export default class QueryCommon {
   public link_Type: string;
   public removeAll: boolean;
 
+  public joinName: string
+  public joinField: Array<string>;
+  public joinUnField: Array<string>;
+  public newlyField: string;
+  public masterRelationField: string;
+  public fromRelationField: string
+
   constructor(tableName: string) {
     this.tableName = tableName;
     this.resultField = null;
@@ -32,6 +39,12 @@ export default class QueryCommon {
     this.many_Save = null;
     this.link_Type = null;
     this.removeAll = false;
+    this.joinName = null
+    this.joinField = null;
+    this.joinUnField = null;
+    this.newlyField = null;
+    this.masterRelationField = null;
+    this.fromRelationField = null;
   }
 
   /**
@@ -122,4 +135,49 @@ export default class QueryCommon {
     this.many_Save = many_Save;
   }
 
+  /**
+   * join_Name
+   */
+  public join_Name(joinName: string) {
+    this.joinName = joinName;
+    return this;
+  }
+
+  /**
+   * join_Field
+   * 聚合管道从表结果展示字段
+   */
+  public join_Field(joinField: Array<string>) {
+    this.joinField = joinField;
+    return this;
+  }
+
+  /**
+   * join_UnField
+   * 聚合管道从表结果不展示字段
+   */
+  public join_UnField(joinUnField: Array<string>) {
+    this.joinUnField = joinUnField;
+    return this;
+  }
+
+  /**
+   * newly_Field
+   * 设置主表中要添加的关联查询结果字段名称
+   */
+  public newly_Field(newlyField: string) {
+    this.newlyField = newlyField;
+    return this;
+  }
+
+  /**
+   * relation_Fields
+   * 设置主从表的关联字段，请注意设置顺序
+   * function(masterField: string, fromField: string){}
+   */
+  public relation_Fields(masterField: string, fromField: string) {
+    this.masterRelationField = masterField;
+    this.fromRelationField = fromField;
+    return this;
+  }
 }

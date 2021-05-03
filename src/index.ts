@@ -2,7 +2,7 @@ import { analyFile, readFile, checkConfig } from "./initialize/index";
 import connect from "./connect/index";
 import createModel from "./create_model/index";
 import QueryCommon from "./manipulation/query";
-import { Save, Remove, Update, Find, typeCheck } from "./manipulation/index";
+import { Save, Remove, Update, Find, Aggregate, typeCheck } from "./manipulation/index";
 
 interface DB {
   name?: string;
@@ -138,6 +138,14 @@ export class queryUnitORM {
     this.TypeCheck ? await typeCheck(this.Enitiy, query_obj, 4) : this.TypeCheck;
     let result: any = await Find(this._db, this.dataBase, query_obj, this.Enitiy);
     return result.length > 0 ? result[0] : [];
+  }
+  /**
+   * Aggregate
+   * 关联查询、目前只支持Mongodb
+   */
+  public async Aggregate(query_obj: any) {
+    this.TypeCheck ? await typeCheck(this.Enitiy, query_obj, 4) : this.TypeCheck;
+    return await Aggregate(this._db, this.dataBase, query_obj, this.Enitiy)
   }
   /**
    * beginBuild

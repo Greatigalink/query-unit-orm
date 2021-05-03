@@ -1,4 +1,4 @@
-import { Save_Mongodb, Remove_Mongodb, Update_Mongodb, Find_Mongodb } from './mongodb/mongodb';
+import { Save_Mongodb, Remove_Mongodb, Update_Mongodb, Find_Mongodb, Aggregate_Mongodb } from './mongodb/mongodb';
 import { Save_Mysql, Remove_Mysql, Update_Mysql, Find_Mysql } from './mysql/mysql';
 import typeCheck from './typeCheck';
 
@@ -38,10 +38,19 @@ async function Find(_db: any ,dataBase: any, queryObj: any, enitiy: any) {
   return result;
 }
 
+async function Aggregate(_db: any ,dataBase: any, queryObj: any, enitiy: any) {
+  let result;
+  switch(_db.name) {
+    case 'mongodb': result = await Aggregate_Mongodb(dataBase, queryObj, enitiy); break;
+  }
+  return result;
+}
+
 export {
   Save,
   Remove,
   Update,
   Find,
-  typeCheck
+  typeCheck,
+  Aggregate
 }

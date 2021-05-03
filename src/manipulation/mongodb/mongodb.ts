@@ -1,7 +1,8 @@
 import {
   createCondition,
   createResultField,
-  createUpdateField
+  createUpdateField,
+  createAggregateField
 } from './query-field'
 
 //使用 insertMany 进行存储
@@ -83,4 +84,20 @@ function Find_Mongodb(dataBase: any, queryObj: any, enitiy: any) {
   });
 }
 
-export { Save_Mongodb, Remove_Mongodb, Update_Mongodb, Find_Mongodb };
+function Aggregate_Mongodb(dataBase: any, queryObj: any, enitiy: any) {
+  let QUERY = dataBase[queryObj.tableName].aggregate(
+    createAggregateField(queryObj, enitiy)
+  )
+
+  return new Promise((resolve, reject) => {
+    QUERY.exec(function (err: any, data: any) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(data);
+      }
+    });
+  });
+}
+
+export { Save_Mongodb, Remove_Mongodb, Update_Mongodb, Find_Mongodb, Aggregate_Mongodb };
