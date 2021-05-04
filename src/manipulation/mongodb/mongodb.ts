@@ -85,8 +85,20 @@ function Find_Mongodb(dataBase: any, queryObj: any, enitiy: any) {
 }
 
 function Aggregate_Mongodb(dataBase: any, queryObj: any, enitiy: any) {
+  let aggField = createAggregateField(queryObj, enitiy)
+
+  if(queryObj.Limit) {
+    aggField.splice(2, 0, {
+      $limit: queryObj.Limit
+    })
+  }
+  if(queryObj.Sort) {
+    aggField.splice(2, 0, {
+      $sort: queryObj.Sort
+    })
+  }
   let QUERY = dataBase[queryObj.tableName].aggregate(
-    createAggregateField(queryObj, enitiy)
+    aggField
   )
 
   return new Promise((resolve, reject) => {

@@ -15,6 +15,10 @@ interface PROJECT_FIELD {
   $project: any
 }
 
+interface MATCH_FIELD {
+  $match: any
+}
+
 //条件生成
 function createCondition(queryObj: any): CONDITION {
   let obj: CONDITION = queryObj.condition_And ? queryObj.condition_And : {};
@@ -73,6 +77,10 @@ function createAggregateField(queryObj: any, enitiy: any): Array<object> {
   let projectObj: PROJECT_FIELD = {
     $project: {}
   }
+  let matchObj: MATCH_FIELD = {
+    $match: {}
+  }
+
   let resultField = createResultField(queryObj, enitiy)
   let joinField: RESULT_FIELD = {}
 
@@ -103,7 +111,8 @@ function createAggregateField(queryObj: any, enitiy: any): Array<object> {
       [queryObj.newlyField]: joinField
     }
   )
-  return [lookUpObj, projectObj]
+  matchObj.$match = createCondition(queryObj)
+  return [lookUpObj, matchObj, projectObj]
 }
 
 export {
