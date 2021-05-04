@@ -128,6 +128,13 @@ export default function typeCheck(
       : false;
     let Limit = queryObj.Limit ? typeof queryObj.Limit : null;
 
+    let JoinField = queryObj.joinField 
+      ? itemTypeCheck(Enitiy, queryObj.joinName, queryObj.joinField)
+      : false;
+    let JoinUnField = queryObj.joinUnField
+      ? itemTypeCheck(Enitiy, queryObj.joinName, queryObj.joinUnField)
+      : false;
+
     !OneSave ? OneSave : reject(Error(OneSave));
     !ManySave ? ManySave : reject(Error(ManySave));
     !Result ? Result : reject(Error(Result));
@@ -137,6 +144,8 @@ export default function typeCheck(
     !Or ? Or : reject(Error(Or));
     !Link ? Link : reject(Error(Link));
     !Sort ? Sort : reject(Error(Sort));
+    !JoinField ? JoinField : reject(Error(JoinField));
+    !JoinUnField ? JoinUnField : reject(Error(JoinUnField));
 
     if (Limit) {
       Limit == "number"
