@@ -1,4 +1,4 @@
-import ERROR from '../util/Error';
+import { QUOError } from '../util/logDisplay';
 
 interface Error {
   [propName: string]: string;
@@ -67,12 +67,12 @@ export default function checkConfigFile(dataBaseConfig: any) {
   };
   return new Promise((resolve: (value: object) => void, reject) => {
     if (!dataBaseConfig.DATABASE)
-      reject(ERROR({
+      reject(QUOError({
         code: 100,
         message: "not found DataBase...",
       }));
     else if (!dataBaseConfig.ENTITYMAP)
-      reject(ERROR({
+      reject(QUOError({
         code: 101,
         message: "not found EntityMap...",
       }));
@@ -96,7 +96,7 @@ export default function checkConfigFile(dataBaseConfig: any) {
           version: '0.0.0'
         });
       } else {
-        reject(ERROR({
+        reject(QUOError({
           code: 102,
           message: checkMsg.message
         }));

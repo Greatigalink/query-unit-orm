@@ -1,4 +1,4 @@
-import Error from "../../util/Error";
+import { QUOError } from "../../util/logDisplay";
 import {
   createCondition,
   createInsertOne,
@@ -24,7 +24,7 @@ function Save_Mysql(dataBase: any, queryObj: any) {
   console.log(sql)
 
   return new Promise((resolve, reject) => {
-    sql == null ? reject(Error({ code: 110, message: "No valid data was found"})) : sql;
+    sql == null ? reject(QUOError({ code: 110, message: "No valid data was found"})) : sql;
     dataBase.query(sql, function (err: any, data: any) {
       if (err) {
         reject(err);
@@ -43,7 +43,7 @@ function Remove_Mysql(dataBase: any, queryObj: any) {
     CONDITION != ""
       ? (sql += `WHERE ${CONDITION}`)
       : reject(
-          Error({ code: 111, message: "You cannot delete without conditions!" })
+          QUOError({ code: 111, message: "You cannot delete without conditions!" })
         );
     dataBase.query(sql, function (err: any, data: any) {
       if (err) {
@@ -64,13 +64,13 @@ function Update_Mysql(dataBase: any, queryObj: any) {
     UPDATE != ""
       ? (sql += `${UPDATE}`)
       : reject(
-        Error({ code: 112, message: "The modify field must be specified!" })
+          QUOError({ code: 112, message: "The modify field must be specified!" })
       );
 
     CONDITION != ""
       ? (sql += ` WHERE ${CONDITION}`)
       : reject(
-          Error({ code: 113, message: "You cannot update without conditions!" })
+          QUOError({ code: 113, message: "You cannot update without conditions!" })
         );
 
     dataBase.query(sql, function (err: any, data: any) {

@@ -1,6 +1,9 @@
 import { Save_Mongodb, Remove_Mongodb, Update_Mongodb, Find_Mongodb, Aggregate_Mongodb } from './mongodb/mongodb';
 import { Save_Mysql, Remove_Mysql, Update_Mysql, Find_Mysql } from './mysql/mysql';
+import { QUOWarning } from '../util/logDisplay'
 import typeCheck from './typeCheck';
+
+const isUseAgg = (queryObj: any) => (queryObj.joinName && queryObj.fromRelationField && queryObj.masterRelationField)
 
 async function Save(_db: any ,dataBase: any, queryObj: any) {
   let result;
@@ -41,7 +44,17 @@ async function Find(_db: any ,dataBase: any, queryObj: any, enitiy: any) {
 async function Aggregate(_db: any ,dataBase: any, queryObj: any, enitiy: any) {
   let result;
   switch(_db.name) {
-    case 'mongodb': result = await Aggregate_Mongodb(dataBase, queryObj, enitiy); break;
+    case 'mongodb': {
+      if(isUseAgg(queryObj)) {
+        result = await Aggregate_Mongodb(dataBase, queryObj, enitiy);
+      } else {
+        console.log(QUOWarning({
+          code: 117,
+          message: `because not found all aggFiled(joinName, masterRelationField, fromRelationField, newlyField), so only use "Find_Mongodb" find data give you!`
+        }))
+        result = await Find_Mongodb(dataBase, queryObj, enitiy);
+      }
+    }  break;
   }
   return result;
 }

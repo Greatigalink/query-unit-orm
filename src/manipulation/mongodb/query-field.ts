@@ -108,7 +108,7 @@ function createAggregateField(queryObj: any, enitiy: any): Array<object> {
     {}, 
     resultField, 
     {
-      [queryObj.newlyField]: joinField
+      [queryObj.newlyField || "defaultJoin"]: joinField
     }
   )
   matchObj.$match = createCondition(queryObj)

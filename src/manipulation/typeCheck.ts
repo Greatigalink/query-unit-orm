@@ -1,4 +1,4 @@
-import Error from "../util/Error";
+import { QUOError } from "../util/logDisplay";
 
 function getType(obj: any): string {
   var x = Object.prototype.toString.call(obj);
@@ -74,7 +74,7 @@ export default function typeCheck(
   return new Promise((resolve, reject) => {
     if (!Enitiy[tableName]) {
       reject(
-        Error({
+        QUOError({
           code: 104,
           message: `Not found table of "${tableName}"`,
         })
@@ -88,7 +88,7 @@ export default function typeCheck(
       !queryObj.many_Save
     ) {
       reject(
-        Error({
+        QUOError({
           code: 109,
           message: "This save message not to be null!",
         })
@@ -135,23 +135,23 @@ export default function typeCheck(
       ? itemTypeCheck(Enitiy, queryObj.joinName, queryObj.joinUnField)
       : false;
 
-    !OneSave ? OneSave : reject(Error(OneSave));
-    !ManySave ? ManySave : reject(Error(ManySave));
-    !Result ? Result : reject(Error(Result));
-    !UnResult ? UnResult : reject(Error(UnResult));
-    !Upadte ? Upadte : reject(Error(Upadte));
-    !And ? And : reject(Error(And));
-    !Or ? Or : reject(Error(Or));
-    !Link ? Link : reject(Error(Link));
-    !Sort ? Sort : reject(Error(Sort));
-    !JoinField ? JoinField : reject(Error(JoinField));
-    !JoinUnField ? JoinUnField : reject(Error(JoinUnField));
+    !OneSave ? OneSave : reject(QUOError(OneSave));
+    !ManySave ? ManySave : reject(QUOError(ManySave));
+    !Result ? Result : reject(QUOError(Result));
+    !UnResult ? UnResult : reject(QUOError(UnResult));
+    !Upadte ? Upadte : reject(QUOError(Upadte));
+    !And ? And : reject(QUOError(And));
+    !Or ? Or : reject(QUOError(Or));
+    !Link ? Link : reject(QUOError(Link));
+    !Sort ? Sort : reject(QUOError(Sort));
+    !JoinField ? JoinField : reject(QUOError(JoinField));
+    !JoinUnField ? JoinUnField : reject(QUOError(JoinUnField));
 
     if (Limit) {
       Limit == "number"
         ? Limit
         : reject(
-            Error({
+          QUOError({
               code: 108,
               message: 'This Limit should be of "number" type!',
             })

@@ -56,26 +56,26 @@ export default class QueryCommon {
     return this;
   }
   /**
-   * result_Field
+   * setResultField
    * 设置查询元结果字段
    */
-  public result_Field(resultField: Array<string>) {
+  public setResultField(resultField: Array<string>) {
     this.resultField = resultField;
     return this;
   }
   /**
-   * unResult_Field
+   * setUnResultField
    * 设置不显示的字段
    */
-  public unResult_Field(unResultField: Array<string>) {
+  public setUnResultField(unResultField: Array<string>) {
     this.unResultField = unResultField;
     return this;
   }
   /**
-   * update_Field
+   * setUpdateField
    * 设置查询元修改字段
    */
-  public update_Field(updateField: object) {
+  public setUpdateField(updateField: object) {
     this.updateField = updateField;
     return this;
   }
@@ -136,46 +136,46 @@ export default class QueryCommon {
   }
 
   /**
-   * join_Name
+   * setJoinName
    */
-  public join_Name(joinName: string) {
+  public setJoinName(joinName: string) {
     this.joinName = joinName;
     return this;
   }
 
   /**
-   * join_Field
+   * setJoinField
    * 聚合管道从表结果展示字段
    */
-  public join_Field(joinField: Array<string>) {
+  public setJoinField(joinField: Array<string>) {
     this.joinField = joinField;
     return this;
   }
 
   /**
-   * join_UnField
+   * setJoinUnField
    * 聚合管道从表结果不展示字段
    */
-  public join_UnField(joinUnField: Array<string>) {
+  public setJoinUnField(joinUnField: Array<string>) {
     this.joinUnField = joinUnField;
     return this;
   }
 
   /**
-   * newly_Field
+   * setNewlyField
    * 设置主表中要添加的关联查询结果字段名称
    */
-  public newly_Field(newlyField: string) {
+  public setNewlyField(newlyField: string) {
     this.newlyField = newlyField;
     return this;
   }
 
   /**
-   * relation_Fields
+   * setRelationFields
    * 设置主从表的关联字段，请注意设置顺序
    * function(masterField: string, fromField: string){}
    */
-  public relation_Fields(masterField: string, fromField: string) {
+  public setRelationFields(masterField: string, fromField: string) {
     this.masterRelationField = masterField;
     this.fromRelationField = fromField;
     return this;
