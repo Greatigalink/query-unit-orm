@@ -56,6 +56,10 @@ function createResultField(queryObj: any, enitiy: any): RESULT_FIELD {
         }
       }
     )
+  } else {
+    Object.keys(enitiy[queryObj.tableName]).forEach(
+      (element) => obj[element] = 1
+    )
   }
   return obj;
 }
@@ -95,6 +99,10 @@ function createAggregateField(queryObj: any, enitiy: any): Array<object> {
           joinField[element] = 1;
         }
       }
+    )
+  } else {
+    Object.keys(enitiy[queryObj.joinName]).forEach(
+      (element) => joinField[element] = 1
     )
   }
 
