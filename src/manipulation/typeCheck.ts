@@ -1,5 +1,7 @@
 import { QUOError } from "../util/logDisplay";
 
+const reg = /\$[a-zA-Z]+/g
+
 function getType(obj: any): string {
   var x = Object.prototype.toString.call(obj);
   return x.replace(/(object|\[|\]|\s)/g, "").toLocaleLowerCase();
@@ -7,7 +9,8 @@ function getType(obj: any): string {
 
 function itemTypeCheck(Enitiy: any, tableName: string, item_obj: any) {
   for (let item of item_obj) {
-    if (!Enitiy[tableName][item]) {
+    if(reg.test(item)) continue;
+    else if (!Enitiy[tableName][item]) {
       return {
         code: 105,
         message: `There is no "${item}" field in ${tableName}!`,
@@ -19,7 +22,8 @@ function itemTypeCheck(Enitiy: any, tableName: string, item_obj: any) {
 
 function columnsCheck(Enitiy: any, tableName: string, columns_obj: any) {
   for (let item in columns_obj) {
-    if (!Enitiy[tableName][item]) {
+    if(reg.test(item)) continue;
+    else if (!Enitiy[tableName][item]) {
       return {
         code: 105,
         message: `There is no "${item}" field in ${tableName}...`,

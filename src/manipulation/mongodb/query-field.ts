@@ -66,11 +66,7 @@ function createResultField(queryObj: any, enitiy: any): RESULT_FIELD {
 
 //修改字段生成
 function createUpdateField(queryObj: any) {
-  return queryObj.updateField
-    ? {
-        $set: queryObj.updateField,
-      }
-    : {};
+  return queryObj.updateField || {};
 }
 
 //聚合查询字段生成
