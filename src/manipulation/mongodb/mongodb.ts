@@ -44,7 +44,7 @@ function Remove_Mongodb(dataBase: any, queryObj: any) {
 
 //使用 update 修改
 function Update_Mongodb(dataBase: any, queryObj: any) {
-  let QUERY = dataBase[queryObj.tableName].update(
+  let QUERY = dataBase[queryObj.tableName].updateMany(
     createCondition(queryObj),
     createUpdateField(queryObj)
   );
