@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const ObjectId = mongoose.Schema.Types.ObjectId;
+const Mixed = mongoose.Schema.Types.Mixed;
 const TYPE: any = {
   String: String,
   Number: Number,
@@ -7,6 +8,7 @@ const TYPE: any = {
   ObjectId: ObjectId,
   Date: Date,
   Boolean: Boolean,
+  Mixed: Mixed
 };
 
 interface COLLECTION {
