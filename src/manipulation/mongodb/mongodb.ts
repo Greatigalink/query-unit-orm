@@ -2,8 +2,8 @@ import {
   createCondition,
   createResultField,
   createUpdateField,
-  createAggregateField
-} from './query-field'
+  createAggregateField,
+} from "./query-field";
 
 //使用 insertMany 进行存储
 function Save_Mongodb(dataBase: any, queryObj: any) {
@@ -85,22 +85,20 @@ function Find_Mongodb(dataBase: any, queryObj: any, enitiy: any) {
 }
 
 function Aggregate_Mongodb(dataBase: any, queryObj: any, enitiy: any) {
-  let aggField = createAggregateField(queryObj, enitiy)
+  let aggField = createAggregateField(queryObj, enitiy);
 
-  if(queryObj.Limit) {
+  if (queryObj.Limit) {
     aggField.splice(2, 0, {
-      $limit: queryObj.Limit
-    })
+      $limit: queryObj.Limit,
+    });
   }
-  if(queryObj.Sort) {
+  if (queryObj.Sort) {
     aggField.splice(2, 0, {
-      $sort: queryObj.Sort
-    })
+      $sort: queryObj.Sort,
+    });
   }
 
-  let QUERY = dataBase[queryObj.tableName].aggregate(
-    aggField
-  )
+  let QUERY = dataBase[queryObj.tableName].aggregate(aggField);
 
   return new Promise((resolve, reject) => {
     QUERY.exec(function (err: any, data: any) {
@@ -113,4 +111,27 @@ function Aggregate_Mongodb(dataBase: any, queryObj: any, enitiy: any) {
   });
 }
 
-export { Save_Mongodb, Remove_Mongodb, Update_Mongodb, Find_Mongodb, Aggregate_Mongodb };
+function Count_Mongodb(dataBase: any, queryObj: any, enitiy: any) {
+  let QUERY = dataBase[queryObj.tableName].find(createCondition(queryObj));
+  queryObj.Limit ? QUERY.limit(queryObj.Limit) : QUERY;
+  QUERY.countDocuments(queryObj.Limit ? true : false);
+
+  return new Promise((resolve, reject) => {
+    QUERY.exec(function (err: any, data: any) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(data);
+      }
+    });
+  });
+}
+
+export {
+  Save_Mongodb,
+  Remove_Mongodb,
+  Update_Mongodb,
+  Find_Mongodb,
+  Aggregate_Mongodb,
+  Count_Mongodb,
+};

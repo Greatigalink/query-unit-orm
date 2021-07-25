@@ -2,7 +2,15 @@ import { analyFile, readFile, checkConfig } from "./initialize/index";
 import connect from "./connect/index";
 import createModel from "./create_model/index";
 import QueryCommon from "./manipulation/query";
-import { Save, Remove, Update, Find, Aggregate, typeCheck } from "./manipulation/index";
+import {
+  Save,
+  Remove,
+  Update,
+  Find,
+  Aggregate,
+  Count,
+  typeCheck,
+} from "./manipulation/index";
 
 interface DB {
   name?: string;
@@ -21,7 +29,7 @@ export class queryUnitORM {
   public dataBase: any;
   public Query: object;
   public Enitiy: object;
-  private TypeCheck: boolean
+  private TypeCheck: boolean;
   constructor(path: string) {
     this.path = path;
     //配置文件路径--Configuration file path
@@ -102,7 +110,9 @@ export class queryUnitORM {
    * 对查询元执行存储操作
    */
   public async Save(query_obj: any) {
-    this.TypeCheck ? await typeCheck(this.Enitiy, query_obj, 1) : this.TypeCheck;
+    this.TypeCheck
+      ? await typeCheck(this.Enitiy, query_obj, 1)
+      : this.TypeCheck;
     return await Save(this._db, this.dataBase, query_obj);
   }
   /**
@@ -110,7 +120,9 @@ export class queryUnitORM {
    * 对查询元执行删除操作
    */
   public async Remove(query_obj: any) {
-    this.TypeCheck ? await typeCheck(this.Enitiy, query_obj, 2) : this.TypeCheck;
+    this.TypeCheck
+      ? await typeCheck(this.Enitiy, query_obj, 2)
+      : this.TypeCheck;
     return await Remove(this._db, this.dataBase, query_obj);
   }
   /**
@@ -118,7 +130,9 @@ export class queryUnitORM {
    * 对查询元执行修改操作
    */
   public async Update(query_obj: any) {
-    this.TypeCheck ? await typeCheck(this.Enitiy, query_obj, 3) : this.TypeCheck;
+    this.TypeCheck
+      ? await typeCheck(this.Enitiy, query_obj, 3)
+      : this.TypeCheck;
     return await Update(this._db, this.dataBase, query_obj);
   }
   /**
@@ -126,7 +140,9 @@ export class queryUnitORM {
    * 对查询元执行查找操作
    */
   public async Find(query_obj: any) {
-    this.TypeCheck ? await typeCheck(this.Enitiy, query_obj, 4) : this.TypeCheck;
+    this.TypeCheck
+      ? await typeCheck(this.Enitiy, query_obj, 4)
+      : this.TypeCheck;
     return await Find(this._db, this.dataBase, query_obj, this.Enitiy);
   }
 
@@ -135,8 +151,15 @@ export class queryUnitORM {
    * 执行查询一次操作
    */
   public async FindOne(query_obj: any) {
-    this.TypeCheck ? await typeCheck(this.Enitiy, query_obj, 4) : this.TypeCheck;
-    let result: any = await Find(this._db, this.dataBase, query_obj, this.Enitiy);
+    this.TypeCheck
+      ? await typeCheck(this.Enitiy, query_obj, 4)
+      : this.TypeCheck;
+    let result: any = await Find(
+      this._db,
+      this.dataBase,
+      query_obj,
+      this.Enitiy
+    );
     return result.length > 0 ? result[0] : {};
   }
   /**
@@ -144,8 +167,20 @@ export class queryUnitORM {
    * 关联查询、目前只支持Mongodb
    */
   public async Aggregate(query_obj: any) {
-    this.TypeCheck ? await typeCheck(this.Enitiy, query_obj, 4) : this.TypeCheck;
-    return await Aggregate(this._db, this.dataBase, query_obj, this.Enitiy)
+    this.TypeCheck
+      ? await typeCheck(this.Enitiy, query_obj, 4)
+      : this.TypeCheck;
+    return await Aggregate(this._db, this.dataBase, query_obj, this.Enitiy);
+  }
+  /**
+   * Count
+   * 计算符合条件的数据条数
+   */
+  public async Count(query_obj: any) {
+    this.TypeCheck
+      ? await typeCheck(this.Enitiy, query_obj, 4)
+      : this.TypeCheck;
+    return await Count(this._db, this.dataBase, query_obj, this.Enitiy);
   }
   /**
    * beginBuild
