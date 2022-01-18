@@ -1,15 +1,30 @@
 import { QUOError } from "../util/logDisplay";
 
-const reg = /\$[a-zA-Z]+/g
+const reg = /\$[a-zA-Z]+/g;
+
+function getPropertyType(obj: any) {
+  return Object.prototype.toString
+    .call(obj)
+    .replace(/(object|\[|\]|\s)/g, "")
+    .toLocaleLowerCase();
+}
 
 function getType(obj: any): string {
-  var x = Object.prototype.toString.call(obj);
-  return x.replace(/(object|\[|\]|\s)/g, "").toLocaleLowerCase();
+  let x = getPropertyType(obj);
+  let result = x;
+  if (x === "array" && obj && obj.length) {
+    let type = getPropertyType(obj[0]);
+    result = type === "object" ? "array-obj" : "array";
+  }
+  if (x === "object" && Object.keys(obj).length) {
+    result = "mixed";
+  }
+  return result;
 }
 
 function itemTypeCheck(Enitiy: any, tableName: string, item_obj: any) {
   for (let item of item_obj) {
-    if(reg.test(item)) continue;
+    if (reg.test(item)) continue;
     else if (!Enitiy[tableName][item]) {
       return {
         code: 105,
@@ -22,15 +37,17 @@ function itemTypeCheck(Enitiy: any, tableName: string, item_obj: any) {
 
 function columnsCheck(Enitiy: any, tableName: string, columns_obj: any) {
   for (let item in columns_obj) {
-    if(reg.test(item)) continue;
+    if (reg.test(item)) continue;
     else if (!Enitiy[tableName][item]) {
       return {
         code: 105,
         message: `There is no "${item}" field in ${tableName}...`,
       };
-    } else if (getType(columns_obj[item]) == "object") {
-      continue;
-    } else if (Enitiy[tableName][item] != getType(columns_obj[item])) {
+    } 
+    // else if (getType(columns_obj[item]) == "object") {
+    //   continue;
+    // } 
+      else if (Enitiy[tableName][item] != getType(columns_obj[item])) {
       return {
         code: 106,
         message: `This { ${item}: ${columns_obj[item]} } value should be of "${Enitiy[tableName][item]}" type!`,
@@ -132,7 +149,7 @@ export default function typeCheck(
       : false;
     let Limit = queryObj.Limit ? typeof queryObj.Limit : null;
 
-    let JoinField = queryObj.joinField 
+    let JoinField = queryObj.joinField
       ? itemTypeCheck(Enitiy, queryObj.joinName, queryObj.joinField)
       : false;
     let JoinUnField = queryObj.joinUnField
@@ -155,7 +172,7 @@ export default function typeCheck(
       Limit == "number"
         ? Limit
         : reject(
-          QUOError({
+            QUOError({
               code: 108,
               message: 'This Limit should be of "number" type!',
             })
