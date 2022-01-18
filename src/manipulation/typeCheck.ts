@@ -43,11 +43,9 @@ function columnsCheck(Enitiy: any, tableName: string, columns_obj: any) {
         code: 105,
         message: `There is no "${item}" field in ${tableName}...`,
       };
-    } 
-    // else if (getType(columns_obj[item]) == "object") {
-    //   continue;
-    // } 
-      else if (Enitiy[tableName][item] != getType(columns_obj[item])) {
+    } else if (getPropertyType(columns_obj[item]) == "object") {
+      continue;
+    } else if (Enitiy[tableName][item] != getType(columns_obj[item])) {
       return {
         code: 106,
         message: `This { ${item}: ${columns_obj[item]} } value should be of "${Enitiy[tableName][item]}" type!`,
